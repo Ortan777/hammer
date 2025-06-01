@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Life Coach</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      color: #fff;
+    }
+
+    .container {
+      background: #1a1a2e;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 12px;
+      padding: 30px 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.5rem;
+      letter-spacing: 1.2px;
+      text-align: center;
+      margin-bottom: 25px;
+      user-select: none;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      margin-bottom: 15px;
+      transition: box-shadow 0.3s ease;
+      color: #1a1a2e;
+      font-weight: 600;
+    }
+    input[type="text"]:focus {
+      box-shadow: 0 0 8px #6c63ff;
+    }
+
+    button {
+      background: #6c63ff;
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      width: 100%;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: #594fdb;
+    }
+    button:active {
+      background: #453fc3;
+    }
+
+    #loading {
+      margin: 20px 0;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #b9b9b9;
+      user-select: none;
+    }
+
+    #plan {
+      margin-top: 25px;
+      max-height: 450px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .plan-day {
+      background: #2e2e4d;
+      padding: 18px 22px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      transition: transform 0.2s ease;
+      cursor: default;
+      user-select: none;
+    }
+    .plan-day:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+    }
+
+    .plan-day strong {
+      font-size: 1.25rem;
+      color: #e0e0ff;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .tip {
+      font-style: italic;
+      color: #a3a3d1;
+      font-size: 1rem;
+      line-height: 1.4;
+      margin-left: 6px;
+      user-select: text;
+    }
+
+    /* Scrollbar */
+    #plan::-webkit-scrollbar {
+      width: 8px;
+    }
+    #plan::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+    #plan::-webkit-scrollbar-thumb {
+      background-color: #6c63ff;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Life Coach</h1>
+
+    <label for="goal">Enter your goal:</label>
+    <input id="goal" type="text" placeholder="e.g., sleep better, fitness, mindfulness" autocomplete="off" />
+
+    <button onclick="getPlan()">Get Plan</button>
+
+    <div id="loading" style="display:none;">Generating your personalized 7-day plan...</div>
+
+    <div id="plan"></div>
+  </div>
+
+  <script>
+    async function getPlan() {
+      const goalInput = document.getElementById('goal');
+      const goal = goalInput.value.trim();
+      const planDiv = document.getElementById('plan');
+      const loadingDiv = document.getElementById('loading');
+
+      planDiv.innerHTML = '';
+
+      if (!goal) {
+        alert('Please enter a goal to get started.');
+        goalInput.focus();
+        return;
+      }
+
+      loadingDiv.style.display = 'block';
+
+      try {
+        const response = await fetch('/api/plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ goal })
+        });
+
+        const data = await response.json();
+        loadingDiv.style.display = 'none';
+
+        if (data.plan && Array.isArray(data.plan)) {
+          data.plan.forEach(day => {
+            const div = document.createElement('div');
+            div.className = 'plan-day';
+            div.innerHTML = `
+              <strong>Day ${day.day}: ${day.task}</strong>
+              <p class="tip">💡 ${day.tip}</p>
+            `;
+            planDiv.appendChild(div);
+          });
+        } else {
+          planDiv.innerHTML = `<p>Oops! We couldn't get a plan. Please try again.</p>`;
+        }
+      } catch (err) {
+        loadingDiv.style.display = 'none';
+        planDiv.innerHTML = `<p>Error connecting to the server. Please try later.</p>`;
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
