@@ -1,21 +1,21 @@
-# 🧭 HabitHarbor
+#  HabitHarbor
 
 **HabitHarbor** is a full-stack AI-powered Life Coaching application that helps users plan, track, and maintain personal development goals. The app offers personalized 7-day plans using AI and allows users to track progress day by day.
 
 ---
 
-## 🚀 Features
+##  Features
 
-- 🔐 User Authentication (Register/Login with JWT)
-- 🧠 AI-generated 7-day goal plan using OpenRouter API
-- ✅ Progress Tracking for each day of the plan
-- 💾 Data persistence with MongoDB
-- 🔄 Auto-login with stored token
-- 🌐 Frontend built with React and MUI
+-  User Authentication (Register/Login with JWT)
+-  AI-generated 7-day goal plan using OpenRouter API
+-  Progress Tracking for each day of the plan
+-  Data persistence with MongoDB
+-  Auto-login with stored token
+-  Frontend built with React and MUI
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 **Frontend**:
 - React
@@ -33,7 +33,7 @@
 
 ---
 
-## 📦 Folder Structure
+##  Folder Structure
 
 ```
 /habitharbor
@@ -48,7 +48,7 @@
 
 ---
 
-## 🧪 How to Run
+##  How to Run
 
 1. **Clone the repository:**
 
@@ -94,7 +94,7 @@ Example prompt:
 
 ---
 
-## ✅ Future Improvements
+##  Future Improvements
 
 - User profile editing
 - Historical progress tracking
@@ -109,4 +109,4 @@ MIT License
 
 ---
 
-Made with 💙 by your team.
+Made by ayush and natasha 
