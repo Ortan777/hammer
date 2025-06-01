@@ -83,7 +83,7 @@ Go to `http://localhost:3000` in your browser.
 
 ---
 
-## 🤖 How AI is Used
+##  How AI is Used
 
 The app uses OpenRouter's AI API with the `mistralai/mistral-7b-instruct` model to generate a personalized 7-day plan based on the user's goal. The user inputs a goal, and the backend fetches an AI-crafted plan, structured as JSON, which the frontend displays and tracks progress on.
 
@@ -103,7 +103,7 @@ Example prompt:
 
 ---
 
-## 📄 License
+##  License
 
 MIT License
 
